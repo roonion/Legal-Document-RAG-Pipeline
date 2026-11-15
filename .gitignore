@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+.wheels/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.deepeval/
+.coverage
+htmlcov/
+*.cover
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+secrets/
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*.swo
+.cursor/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# ML / models (large artifacts)
+*.onnx
+*.pt
+*.bin
+checkpoints/
+models/
+
+# Data caches
+data/cache/*.json
+data/cache/*.pkl

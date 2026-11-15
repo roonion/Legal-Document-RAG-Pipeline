@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "legal-rag.fullname" . }}-postgres
+spec:
+  serviceName: {{ include "legal-rag.fullname" . }}-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "legal-rag.name" . }}-postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "legal-rag.name" . }}-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.auth.username | quote }}
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.auth.database | quote }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "legal-rag.fullname" . }}-secrets
+                  key: postgres-password

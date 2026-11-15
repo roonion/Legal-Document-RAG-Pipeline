@@ -1,0 +1,108 @@
+{
+  "version": "1.0",
+  "corpus": "sec_edgar_8_documents",
+  "created": "2026-03-30",
+  "description": "10 manually verified QA pairs against 8 real SEC EDGAR legal contracts. Ground truths derived from document analysis with exact section references.",
+  "entries": [
+    {
+      "id": "Q1",
+      "document_id": "microsoft_activision_merger",
+      "question": "What is the exact per-share merger consideration, and under what specific conditions can it be adjusted downward?",
+      "ground_truth": "The merger consideration is $95.00 per share in cash, without interest. The only adjustment mechanism is proportional adjustment for corporate actions between signing and Effective Time (reclassification, recapitalization, stock split, reverse stock split, combination, exchange, readjustment, stock dividend, or record date establishment) per Section 2.14. No downward adjustment mechanism exists for financial performance, MAE, or business conditions — this is a fixed-price deal. Section 2.14 explicitly prohibits the Company from taking prohibited securities actions to trigger adjustments.",
+      "reference_contexts": ["Section 2.1", "Section 2.14"],
+      "difficulty": "moderate",
+      "capability_tested": "exact_clause_identification, negative_confirmation",
+      "expected_missing": null
+    },
+    {
+      "id": "Q2",
+      "document_id": "gevo_pat_gruber_employment",
+      "question": "If Pat Gruber is terminated without cause, what is the exact severance calculation, and how does it differ from severance upon retirement?",
+      "ground_truth": "Without cause termination (Section 6.2): Accrued Amounts + 24 months Base Salary + 2x Target Bonus + pro-rata bonus (days worked / 365 x average of prior 3 years bonus) + Non-Compete Payment (Section 8.2) + 18 months medical coverage at company expense (or COBRA equivalent), all paid as lump sum 75 days post-termination contingent on release within 60 days. Retirement (Section 6.4): Unique 6-month advance notice requirement + consulting transition period; equity awards continue vesting on normal schedule for 18 months post-termination then full acceleration; no equivalent cash severance package. Key difference: without cause = immediate full equity acceleration + cash severance package; retirement = gradual 18-month equity vesting + no cash severance.",
+      "reference_contexts": ["Section 6.2", "Section 6.4", "Section 8.2"],
+      "difficulty": "complex",
+      "capability_tested": "conditional_logic, compensation_formula_extraction, multi_scenario_comparison",
+      "expected_missing": null
+    },
+    {
+      "id": "Q3",
+      "document_id": "six_flags_credit_agreement",
+      "question": "What is the maximum permitted Senior Secured Leverage Ratio, and what specific line items are included in the calculation of Consolidated EBITDA used to compute it?",
+      "ground_truth": "The Section 9.1 maintenance covenant maximum requires multi-hop chain retrieval. Different thresholds serve different purposes: 2.25 (Available Amount), 3.25 (Incremental Incurrence Basket), 3.75 (ECF Percentage trigger), 4.00 (closing condition). Senior Secured Leverage Ratio = Senior Secured Debt / Borrower Consolidated Adjusted EBITDA. EBITDA add-backs include: Consolidated Net Income + total interest expense + income tax expense + depreciation and amortization (including goodwill/intangibles) + non-recurring/unusual items (capped at greater of $20M or 5% of Parent Consolidated Adjusted EBITDA) + net gains/losses from asset disposals + transaction fees + unrealized hedging gains/losses + currency translation + non-cash items + business interruption insurance proceeds + projected cost savings/synergies from acquisitions. Borrower Consolidated Adjusted EBITDA = Parent Consolidated Adjusted EBITDA + corporate charges not allocated to Borrower minus EBITDA attributable to non-Borrower entities. Senior Secured Debt calculation includes 4-quarter average Revolver Indebtedness minus Unrestricted Cash capped at lesser of $50M or Revolver Indebtedness amount.",
+      "reference_contexts": ["Section 9.1", "Section 1.1 definitions", "Section 2.14"],
+      "difficulty": "complex",
+      "capability_tested": "multi_hop_cross_reference, definition_chain_traversal",
+      "expected_missing": "Section 9.1 exact maintenance covenant maximum requires agentic multi-hop retrieval. Single-pass systems will not surface it. System should acknowledge the distinction between incurrence-based and maintenance-based covenants."
+    },
+    {
+      "id": "Q4",
+      "document_id": "solazyme_roquette_joint_venture",
+      "question": "What are Solazyme's capital contribution obligations for Phase 3, and what happens if Solazyme fails to make a required payment?",
+      "ground_truth": "Solazyme has NO Phase 3 capital contribution obligations. Section 4.1(b) limits Solazyme's contributions to IP license + business know-how only. 'Solazyme Payments' naming is misleading — these are Roquette's obligations (payments flow through Company TO Solazyme, not FROM Solazyme). Phase 3 Payment is exclusively Roquette's obligation under Section 4.1(a)(iv), subject to unanimous Board approval and Sections 4.5 and 10.4(a)(iii). Additional capital obligations possible only via Section 4.2(b) Capital Call (requires unanimous Board + written consent of both Members, split 50/50). Payment failure consequence: Material Breach under Section 14.6 (which defines Material Breach as breach of Sections 4.1(a)(i-iv)), connecting to Breaching Party provisions. Board declination process: first decline triggers re-request after 12 months; second decline triggers good faith negotiation to redeploy Phase 3 Payment; no agreement triggers Article 22 dispute resolution. Financial amounts are redacted with [*] throughout.",
+      "reference_contexts": ["Section 4.1(a)", "Section 4.1(b)", "Section 4.2(b)", "Section 14.6", "Article 22"],
+      "difficulty": "complex",
+      "capability_tested": "external_glossary_navigation, defined_term_resolution, redaction_handling, negative_finding",
+      "expected_missing": "Article 22 content not in retrieved context. Exhibit A glossary requires explicit cross-document retrieval. System should correctly identify that Solazyme has no capital contribution obligations rather than misattributing Roquette's obligations."
+    },
+    {
+      "id": "Q5",
+      "document_id": "tower_autokiniton_nda",
+      "question": "What information is excluded from the definition of 'Evaluation Material,' and for how long does confidentiality protection survive for Trade Secrets versus other Evaluation Material?",
+      "ground_truth": "Four exclusion carve-outs: (1) prior possession not from Disclosing Party or bound source; (2) independent source not known to be bound by confidentiality to Disclosing Party; (3) publicly available information not through Recipient's breach; (4) independently developed by personnel without access to Evaluation Material. General term: 2 years from agreement date. Trade Secrets: perpetual — 'so long as such Evaluation Material remains a trade secret under applicable law.' Retained material: 5 years following general termination date. Trade Secret definition: (i) all software code and technology + (ii) any Evaluation Material reasonably designated as Trade Secret by Disclosing Party at time of disclosure.",
+      "reference_contexts": ["Section 1 definitions", "Section 7"],
+      "difficulty": "moderate",
+      "capability_tested": "defined_term_extraction, temporal_reasoning, multiple_duration_provisions",
+      "expected_missing": null
+    },
+    {
+      "id": "Q6",
+      "document_id": "microsoft_activision_merger",
+      "question": "How is 'Burdensome Condition' defined in the agreement, and how does it affect the parties' obligations to obtain regulatory approval?",
+      "ground_truth": "Definition (Section 6.2(b)): any action reasonably expected to (i) have material adverse impact on Company and Subsidiaries taken as a whole, (ii) have material impact on benefits expected by Parent from the Merger, or (iii) have more than immaterial impact on any business or product line of Parent. Hell or High Water obligation: Parent and Merger Sub must offer/negotiate/commit to divestitures, asset sales, licenses, activity restrictions, and contest/defend/appeal legal proceedings challenging the merger. Burdensome Condition serves as hard limit on HoHW obligation — Parent not required to take remedial actions constituting a Burdensome Condition. Closing conditions: regulatory approvals must be obtained without imposition of Burdensome Condition (competition approvals under HSR Act + other regulatory approvals under foreign investment laws). No legal restraint can be in effect imposing or seeking to impose a Burdensome Condition.",
+      "reference_contexts": ["Section 6.2(b)", "Section 6.2(c)", "Section 9.1", "Section 9.3"],
+      "difficulty": "complex",
+      "capability_tested": "defined_term_resolution, interaction_with_closing_conditions, hell_or_high_water",
+      "expected_missing": null
+    },
+    {
+      "id": "Q7",
+      "document_id": "westlake_chemical_feedstock",
+      "question": "How does the pricing mechanism in the Feedstock Supply Agreement interact with the companion Ethylene Sales Agreement, and what happens if the OPIS Index becomes unavailable?",
+      "ground_truth": "Pricing structure: cost-plus reimbursement — Buyer pays OPIS Index price + commercially reasonable storage/handling/transportation from Mont Belvieu to Receipt Points. OPIS Index: monthly average of daily high/low prices from OPIS LPG Report, Mont Belvieu Spot Gas Liquids — Purity Ethane prices for ethane, Non-TET prices for propane. Companion agreement interactions: (1) Feedstock Supply Agreement cannot be renewed unless Ethylene Sales Agreement simultaneously renewed; (2) deficiency fee references Variable Cash Conversion Costs and Cost of Feedstock defined in Ethylene Sales Agreement; (3) anti-double-recovery: if both Feedstock Shortfall Fee and Ethylene Shortfall Fee apply to same volume, Downstream Buyer pays Ethylene Shortfall Fee and Seller has no Feedstock Shortfall Fee obligation. Feedstock Shortfall Fee = quantity of ethylene Buyer unable to produce x ($0.10/lb + All Other Cash Production Costs $/lb + Prior Year Adjustment $/lb). OPIS unavailability fallback (three-tier): (1) provisional pricing using prior month until actual price published, then invoice reissuance with 15-day payment; (2) publisher-specified replacement index; (3) good faith negotiation of comparable successor index.",
+      "reference_contexts": ["Section 3.1", "Section 3.2", "Section 5.3", "Exhibit A"],
+      "difficulty": "complex",
+      "capability_tested": "cross_document_reasoning, pricing_formula_extraction, fallback_mechanism_identification",
+      "expected_missing": null
+    },
+    {
+      "id": "Q8",
+      "document_id": "boot_barn_nsb_saas",
+      "question": "What are Boot Barn's total annual SaaS fees in Year 3 of the agreement, accounting for the CPI escalation mechanism, and what third-party software sublicenses are included?",
+      "ground_truth": "Base annual SaaS fees: $197,700 (Schedule A). CPI escalation: applies after Year 2, increase capped at greater of (i) Montreal CPI (Consumer Price Index All Items, Montreal — correct because NSB is headquartered at 2800 Trans Canada Highway, Pointe Claire, Quebec, Canada) + 2% or (ii) 2% alone. Exact Year 3 amount: $197,700 x (1 + applicable CPI + 2%) — cannot be calculated without historical Montreal CPI data for relevant year. Third-party cost exception: CPI cap does not apply to Third Party license costs, maintenance, or POS hardware maintenance. POS Hardware Maintenance: $47,385 annually (separate from SaaS fees, same third-party exception applies). Third-party software: Microsoft SQL (explicitly named), Windows XP Professional + SQL (POS enabling items, Schedule B), incremental user fee $63/month covers SQL and other enabling items. Hosted applications enumerated in Schedule A: Merchandising, Planning, Sales Analytics, CRM, Store, Communications. Note: Schedule E is POS Equipment Maintenance (Advanced Exchange Program), NOT a hosted applications list.",
+      "reference_contexts": ["Schedule A", "Schedule B", "Schedule E", "Section 4.1"],
+      "difficulty": "moderate",
+      "capability_tested": "cross_schedule_navigation, pricing_formula_extraction, cpi_calculation",
+      "expected_missing": "Exact Year 3 fee requires external Montreal CPI data not in document. System should identify the formula and acknowledge it cannot compute the exact amount."
+    },
+    {
+      "id": "Q9",
+      "document_id": "athenahealth_jamestown_lease",
+      "question": "If athenahealth fails to pay rent for 60 days, what remedies does the landlord have, and does the tenant improvement allowance need to be repaid?",
+      "ground_truth": "Event of Default trigger (Section 21.1(a)): non-payment continuing 10 calendar days after written notice from Landlord — 60 days far exceeds this threshold. Four landlord remedies (Section 21.2): (a) terminate lease + evict + remove persons; (b) sue for rent without terminating or retaking possession; (c) retake possession by summary proceedings with or without terminating; (d) terminate and recover liquidated damages. Liquidated damages include: present value at 8% discount rate of excess future rent over reasonable rental value + unamortized Tenant Allowance + unamortized leasing commissions + abated rent + other cash inducements (all amortized straight-line over Term as of termination date). TI allowance repayment: YES — unamortized portion explicitly included in Section 21.2(d) liquidated damages. Georgia law governs — liquidated damages provision explicitly states amounts are 'not punitive or a penalty and are just, fair and reasonable' under Georgia law.",
+      "reference_contexts": ["Section 21.1(a)", "Section 21.2", "Section 21.2(d)"],
+      "difficulty": "moderate",
+      "capability_tested": "conditional_obligation, default_remedy_chain, clawback_provision_identification",
+      "expected_missing": null
+    },
+    {
+      "id": "Q10",
+      "document_id": "tower_autokiniton_nda",
+      "question": "Does the Confidentiality Agreement contain an arbitration clause, and if so, what are the arbitration procedures?",
+      "ground_truth": "NO arbitration clause exists in the Tower NDA. Dispute resolution mechanism: exclusive court jurisdiction in courts of State of New York sitting in Borough of Manhattan or SDNY (Southern District of New York). Jury trial waiver: explicit all-caps provision — both parties waive jury trial rights for any lawsuit, proceeding or action to enforce or defend rights under the Agreement. Forum non conveniens waiver: parties irrevocably waive objections to venue or forum. Service of process: by mailing copies to parties per notice provision, effective 10 calendar days after mailing. Note: other documents in corpus (merger agreement) contain arbitration provisions with Houston Texas jurisdiction — system must correctly identify these as belonging to different agreements.",
+      "reference_contexts": ["Section 12", "Section 13"],
+      "difficulty": "moderate",
+      "capability_tested": "negative_question, absence_of_provision, alternative_mechanism_identification, multi_document_discrimination",
+      "expected_missing": null
+    }
+  ]
+}

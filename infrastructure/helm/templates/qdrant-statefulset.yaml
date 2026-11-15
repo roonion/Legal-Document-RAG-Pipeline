@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "legal-rag.fullname" . }}-qdrant
+spec:
+  serviceName: {{ include "legal-rag.fullname" . }}-qdrant
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "legal-rag.name" . }}-qdrant
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "legal-rag.name" . }}-qdrant
+    spec:
+      containers:
+        - name: qdrant
+          image: qdrant/qdrant:latest
+          ports:
+            - containerPort: 6333
+            - containerPort: 6334
+          volumeMounts:
+            - name: data
+              mountPath: /qdrant/storage
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.qdrant.persistence.size }}

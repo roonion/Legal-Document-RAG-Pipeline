@@ -1,0 +1,67 @@
+nameOverride: ""
+fullnameOverride: ""
+
+api:
+  replicaCount: 2
+  image:
+    repository: legal-rag-api
+    tag: latest
+  resources:
+    limits:
+      cpu: "2"
+      memory: 2Gi
+
+frontend:
+  replicaCount: 2
+  image:
+    repository: legal-rag-frontend
+    tag: latest
+
+qdrant:
+  persistence:
+    enabled: true
+    size: 20Gi
+
+postgres:
+  auth:
+    username: legalrag
+    database: legalrag
+    password: change-me
+
+secrets:
+  groqApiKey: ""
+
+embedding:
+  resources:
+    limits:
+      cpu: "4"
+      memory: 8Gi
+      nvidia.com/gpu: 1
+
+redis:
+  architecture: standalone
+
+minio:
+  mode: standalone
+  auth:
+    rootUser: minioadmin
+    rootPassword: minioadmin
+
+celery:
+  workers:
+    extraction: 1
+    processing: 1
+    embedding: 1
+
+ingress:
+  enabled: false
+  className: nginx
+  hosts:
+    - host: legal-rag.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+monitoring:
+  serviceMonitor:
+    enabled: true

@@ -1,0 +1,18 @@
+# GPU ONNX / embedding sidecar (optional; requires NVIDIA Container Toolkit)
+FROM nvidia/cuda:12.4.1-runtime-ubuntu22.04
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY embedding/pyproject.toml embedding/README.md ./
+COPY embedding/finetune ./finetune
+COPY embedding/inference ./inference
+COPY embedding/evaluation ./evaluation
+
+RUN pip install --no-cache-dir pip -U && pip install --no-cache-dir -e "."
+
+EXPOSE 8080
+
+CMD ["python", "-c", "print('TODO: start ONNX embedding server')"]

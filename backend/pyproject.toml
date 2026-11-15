@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "legal-rag-backend"
+version = "0.1.0"
+description = "Legal Document RAG Pipeline API"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.6.0",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "asyncpg>=0.30.0",
+    "psycopg2-binary>=2.9.0",
+    "alembic>=1.14.0",
+    "celery>=5.4.0,<6",
+    "redis[hiredis]>=5.2.0,<8",
+    "qdrant-client>=1.12.0",
+    "minio>=7.2.0",
+    "langchain>=0.3.0",
+    "langchain-community>=0.3.0",
+    "langchain-groq>=0.2.0",
+    "langchain-anthropic>=0.2.0",
+    "langchain-google-genai>=2.0.0",
+    "langchain-text-splitters>=0.3.0",
+    "langgraph>=0.2.0",
+    "langchain-qdrant>=0.2.0",
+    "fastembed>=0.4.0",
+    "prometheus-client>=0.21.0",
+    "prometheus-fastapi-instrumentator>=7.0.0",
+    "pymupdf>=1.24.0",
+    "unstructured[pdf]>=0.16.0",
+    "networkx>=3.4.0",
+    "httpx>=0.27.0",
+    "python-multipart>=0.0.12",
+    "sentence-transformers>=3.0.0",
+    "optimum[onnxruntime]>=1.19.0",
+    "numpy>=2.0.0",
+    "ragatouille>=0.0.9",
+]
+
+[project.optional-dependencies]
+rag = [
+    "FlagEmbedding>=1.2.0",
+    "ragatouille>=0.0.9",
+    "semantic-router>=0.0.50",
+    "lightrag-hku>=1.0.0",
+]
+data = [
+    "datasets>=3.0.0",
+    "edgartools>=3.0.0",
+]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "locust>=2.32.0",
+    "datasets>=3.0.0",
+    "edgartools>=3.0.0",
+]
+all = ["legal-rag-backend[rag,dev,data]"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+"app/api/**" = ["B008"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "legalbench: LegalBench-RAG retrieval benchmark",
+    "contractnli: ContractNLI entailment evaluation",
+    "cuad: CUAD extractive QA evaluation",
+]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true

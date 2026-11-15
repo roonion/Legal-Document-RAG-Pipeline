@@ -1,0 +1,7 @@
+# FlagEmbedding BGE-M3 legal fine-tune (placeholder hyperparameters)
+model_name_or_path: BAAI/bge-m3
+unified_finetuning: true
+use_self_distill: true
+kd_loss_type: m3_kd_loss
+temperature: 0.02
+learning_rate: 1.0e-5

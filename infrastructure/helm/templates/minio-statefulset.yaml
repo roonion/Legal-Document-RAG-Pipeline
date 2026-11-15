@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "legal-rag.fullname" . }}-minio
+spec:
+  serviceName: {{ include "legal-rag.fullname" . }}-minio
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "legal-rag.name" . }}-minio
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "legal-rag.name" . }}-minio
+    spec:
+      containers:
+        - name: minio
+          image: minio/minio:latest
+          args: ["server", "/data", "--console-address", ":9001"]
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
